@@ -82,24 +82,46 @@ $app->post('/todo/add', function (Request $request) use ($app) {
 });
 
 
-$app->match('/todo/delete/{id}', function ($id) use ($app) {
+$app->match('/todo/delete/id={id}', function ($id) use ($app) {
 
     $sql = "DELETE FROM todos WHERE id = '$id'";
     $app['db']->executeUpdate($sql);
 
     $app['session']->getFlashBag()->add("success", "Task succesfully deleted");
 
-    return $app->redirect('/todo');
+    $flashBag = $app['session']->getFlashBag();
+
+    $response = json_encode([
+        'success' => true,
+        'messages' => $flashBag->get('success'),
+        'id' => $id,
+    ]);
+
+    $flashBag->clear();
+
+    return $response;
+
 });
 
-$app->match('/todo/complete/{id}', function ($id) use ($app) {
+$app->match('/todo/complete/id={id}', function ($id) use ($app) {
 
     $sql = "UPDATE todos SET is_complete = 1 WHERE id = '$id'";
     $app['db']->executeUpdate($sql);
 
     $app['session']->getFlashBag()->add("success", "Task succesfully completed");
+
+    $flashBag = $app['session']->getFlashBag();
+
+    $response = json_encode([
+        'success' => true,
+        'messages' => $flashBag->get('success'),
+        'id' => $id,
+    ]);
+
+    $flashBag->clear();
+
+    return $response;
     
-    return $app->redirect('/todo');
 });
 
 $app->match('/todo/view/id={id}', function ($id) use ($app) {

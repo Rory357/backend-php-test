@@ -15,9 +15,18 @@
                     </a>
                 </td>
                 <td>
-                    <form method="post" action="{{ app.request.baseurl }}/todo/delete/{{ todo.id }}">
+                    <form class="inline_form" method="post" action="{{ app.request.baseurl }}/todo/delete/{{ todo.id }}">
                         <button type="submit" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove glyphicon-white"></span></button>
                     </form>
+
+                    <!-- Show "Set as complete button only if task is not completed" --> 
+                    {% if todo.is_complete == 0 %}
+                        <form class="inline_form" method="post" action="{{ app.request.baseurl }}/todo/complete/{{ todo.id }}">
+                            <button type="submit" id="complete_{{ todo.id }}" class="btn btn-xs btn-success" onClick="completeOnClick('{{ todo.id }}')" title="Complete Task"><span class="glyphicon glyphicon glyphicon-ok glyphicon-white"></span></button>
+                        </form>
+                    {% endif %}
+                    <!---->
+
                 </td>
             </tr>
         {% endfor %}

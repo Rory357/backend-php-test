@@ -34,6 +34,9 @@
                     {% endif %}
                     <!---->
 
+                    <!-- View JSON button with popup modal --> 
+                    <button title="View Json Format" data-id="{{ todo.id }}" type="button" class="btn btn-xs btn-primary glyphicon glyphicon-zoom-in modalPopUpButton" data-toggle="modal" data-target="#viewModalPopUp"></button>
+
                 </td>
             </tr>
         {% endfor %}
@@ -51,4 +54,25 @@
         </tr>
     </table>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="viewModalPopUp" tabindex="-1" role="dialog" aria-labelledby="viewModalPopUpTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewModalPopUpTitle">View JSON Data</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <!-- Modal Content Here -->
+            <p>Todo Data: <span id="todoId"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

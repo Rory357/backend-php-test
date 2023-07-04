@@ -101,3 +101,12 @@ $app->match('/todo/complete/{id}', function ($id) use ($app) {
     
     return $app->redirect('/todo');
 });
+
+$app->match('/todo/view/id={id}', function ($id) use ($app) {
+
+    $sql = "SELECT * FROM todos WHERE id = '$id'";
+    $data = $app['db']->fetchAssoc($sql);
+
+    return json_encode($data);
+
+});

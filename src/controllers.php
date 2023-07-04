@@ -22,8 +22,8 @@ $app->match('/login', function (Request $request) use ($app) {
     $password = $request->get('password');
 
     if ($username) {
-        $sql = "SELECT * FROM users WHERE username = '$username' and password = '$password'";
-        $user = $app['db']->fetchAssoc($sql);
+        $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+        $user = $app['db']->fetchAssoc($sql, array($username, $password));
 
         if ($user){
             $app['session']->set('user', $user);
@@ -47,15 +47,15 @@ $app->get('/todo/{id}', function ($id) use ($app) {
     }
 
     if ($id){
-        $sql = "SELECT * FROM todos WHERE id = '$id'";
-        $todo = $app['db']->fetchAssoc($sql);
+        $sql = "SELECT * FROM todos WHERE id = ?";
+        $todo = $app['db']->fetchAssoc($sql, array($id));
 
         return $app['twig']->render('todo.html', [
             'todo' => $todo,
         ]);
     } else {
-        $sql = "SELECT * FROM todos WHERE user_id = '${user['id']}'";
-        $todos = $app['db']->fetchAll($sql);
+        $sql = "SELECT * FROM todos WHERE user_id = ?";
+        $todos = $app['db']->fetchAll($sql, array($user['id']));
 
         return $app['twig']->render('todos.html', [
             'todos' => $todos,

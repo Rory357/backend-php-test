@@ -76,6 +76,8 @@ $app->post('/todo/add', function (Request $request) use ($app) {
     $sql = "INSERT INTO todos (user_id, description) VALUES ('$user_id', '$description')";
     $app['db']->executeUpdate($sql);
 
+    $app['session']->getFlashBag()->add("success", "Task $description succesfully added");
+
     return $app->redirect('/todo');
 });
 
@@ -85,6 +87,8 @@ $app->match('/todo/delete/{id}', function ($id) use ($app) {
     $sql = "DELETE FROM todos WHERE id = '$id'";
     $app['db']->executeUpdate($sql);
 
+    $app['session']->getFlashBag()->add("success", "Task succesfully deleted");
+
     return $app->redirect('/todo');
 });
 
@@ -92,6 +96,8 @@ $app->match('/todo/complete/{id}', function ($id) use ($app) {
 
     $sql = "UPDATE todos SET is_complete = 1 WHERE id = '$id'";
     $app['db']->executeUpdate($sql);
+
+    $app['session']->getFlashBag()->add("success", "Task succesfully completed");
     
     return $app->redirect('/todo');
 });
